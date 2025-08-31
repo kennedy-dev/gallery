@@ -8,10 +8,20 @@ let index = require('./routes/index');
 let image = require('./routes/image');
 
 // connecting the database
-let mongodb_url = 'mongodb://localhost:27017/';
-let dbName = 'darkroom';
-mongoose.connect(`${mongodb_url}${dbName}`,{ useNewUrlParser: true , useUnifiedTopology: true }, (err)=>{
-    if (err) console.log(err)
+// Load environment variables
+require('dotenv').config();
+
+// connecting the database
+const env = process.env.NODE_ENV || 'development';
+const config = require('./_config');
+const mongodb_url = config.mongoURI[env];
+
+mongoose.connect(mongodb_url)
+.then(() => {
+    console.log('Connected to MongoDB Atlas successfully');
+})
+.catch((err) => {
+    console.error('Database connection failed:', err);
 });
 
 // test if the database has connected successfully
