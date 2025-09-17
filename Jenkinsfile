@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     triggers {
-        scm('H/5 * * * *')
+        pollSCM('H/5 * * * *')
         // GitHub webhook support
         githubPush()
     }
