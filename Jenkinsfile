@@ -23,10 +23,13 @@ pipeline {
         
         stage('Tests') {
             steps {
-                sh '''
-                    # Set test environment and run actual tests
-                    NODE_ENV=test MONGODB_URI_TEST="mongodb+srv://kennedymukuna_db_user:KAJ869Ko08%23%40@schoolwork.vxnsfoe.mongodb.net/darkroom-test?retryWrites=true&w=majority&appName=SchoolWork" npm test
-                '''
+                withCredentials([
+                    string(credentialsId: 'mongodb-test-uri', variable: 'MONGODB_URI_TEST')
+                ]) {
+                    sh '''
+                        NODE_ENV=test npm test
+                    '''
+                }
             }
         }
         
