@@ -2,23 +2,35 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const config = require('./_config');
+
+require('dotenv').config();
 
 // Define routes
 let index = require('./routes/index');
 let image = require('./routes/image');
 
-// connecting the database
-// Load environment variables
-require('dotenv').config();
+// Initializing the app
+const app = express();
 
-// connecting the database
 const env = process.env.NODE_ENV || 'development';
-const config = require('./_config');
-const mongodb_url = process.env.MONGODB_URI_PROD || process.env.MONGODB_URI || 'mongodb://localhost:27017/gallery';
+let MONGODB_URI;
 
-mongoose.connect(mongodb_url)
+if (env === 'test') {
+    MONGODB_URI = process.env.MONGODB_URI_TEST;
+} else if (env === 'production') {
+    MONGODB_URI = process.env.MONGODB_URI_PROD;
+} else {
+    MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/gallery';
+}
+
+console.log(`Environment: ${env}`);
+console.log(`Connecting to: ${MONGODB_URI ? 'Database configured' : 'No database URL'}`);
+
+// connecting the database (modern syntax)
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
-    console.log('Connected to MongoDB Atlas successfully');
+    console.log(`Connected to Database: ${MONGODB_URI}`);
 })
 .catch((err) => {
     console.error('Database connection failed:', err);
@@ -30,8 +42,7 @@ db.once('open', ()=>{
     console.log('Database connected successfully')
 })
 
-// Initializing the app
-const app = express();
+
 
 
 // View Engine
@@ -54,3 +65,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT,() =>{
     console.log(`Server is listening at http://localhost:${PORT}`)
 });
+
+
+module.exports = app;
