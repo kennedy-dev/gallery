@@ -16,15 +16,20 @@ const app = express();
 const env = process.env.NODE_ENV || 'development';
 let MONGODB_URI;
 
-if (env === 'test') {
+if (env === 'test' && process.env.MONGODB_URI_TEST) {
     MONGODB_URI = process.env.MONGODB_URI_TEST;
-} else if (env === 'production') {
+} else if (env === 'production' && process.env.MONGODB_URI_PROD) {
     MONGODB_URI = process.env.MONGODB_URI_PROD;
+} else if (process.env.MONGODB_URI) {
+    MONGODB_URI = process.env.MONGODB_URI;
 } else {
-    MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/gallery';
+    // Fall back to config file for local development
+    const config = require('./_config');
+    MONGODB_URI = config.mongoURI[env] || 'mongodb://localhost:27017/gallery';
 }
 
 console.log(`Environment: ${env}`);
+console.log(`Database configured: ${MONGODB_URI ? 'Yes' : 'No'}`);
 console.log(`Connecting to: ${MONGODB_URI ? 'Database configured' : 'No database URL'}`);
 
 // connecting the database (modern syntax)
