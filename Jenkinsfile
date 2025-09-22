@@ -50,7 +50,7 @@ pipeline {
             
             // Send Slack notification on successful deployment
             slackSend(
-                channel: '#kennedy-ip1',
+                channel: '#all-deveops-work',
                 color: 'good',
                 message: """
                 :white_check_mark: *Deployment Successful!*
