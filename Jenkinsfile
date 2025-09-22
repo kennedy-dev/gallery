@@ -120,7 +120,7 @@ pipeline {
                     <p>Time to test your gallery functionality! 📸</p>
                 """,
                 mimeType: 'text/html',
-                to: '${env.CHANGE_AUTHOR_EMAIL}',
+                to: 'kennedy.mukuna@gmail.com',
                 recipientProviders: [developers(), requestor()]
             )
         }
@@ -157,7 +157,7 @@ pipeline {
                     <p><strong>💡 Need help?</strong> Check the console output for specific error details!</p>
                 """,
                 mimeType: 'text/html',
-                to: '${env.CHANGE_AUTHOR_EMAIL}',
+                to: 'kennedy.mukuna@gmail.com',
                 recipientProviders: [developers(), requestor(), culprits()]
             )
         }
@@ -186,7 +186,7 @@ pipeline {
                     <p>Your gallery app should still be functional, but consider addressing the warnings.</p>
                 """,
                 mimeType: 'text/html',
-                to: '${env.CHANGE_AUTHOR_EMAIL}',
+                to: 'kennedy.mukuna@gmail.com',
                 recipientProviders: [developers(), requestor()]
             )
         }
