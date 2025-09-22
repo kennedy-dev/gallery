@@ -23,7 +23,10 @@ pipeline {
         
         stage('Tests') {
             steps {
-                sh 'node -c server.js'  // Basic syntax check
+                sh '''
+                    # Set test environment and run actual tests
+                    NODE_ENV=test MONGODB_URI_TEST="mongodb+srv://kennedymukuna_db_user:KAJ869Ko08%23%40@schoolwork.vxnsfoe.mongodb.net/darkroom-test?retryWrites=true&w=majority&appName=SchoolWork" npm test
+                '''
             }
         }
         
