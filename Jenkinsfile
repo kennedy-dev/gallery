@@ -50,10 +50,10 @@ pipeline {
             
             // Send Slack notification on successful deployment
             slackSend(
-                channel: '#all-deveops-work',
+                channel: '#new-channel',
                 color: 'good',
                 message: """
-                :white_check_mark: *Deployment Successful!*
+                *Deployment Successful!*
                 
                 *Build ID:* ${env.BUILD_NUMBER}
                 *Project:* Gallery Application
