@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-const config = require('./_config');
+// Remove this line: const config = require('./_config');
 
 require('dotenv').config();
 
@@ -23,13 +23,20 @@ if (env === 'test' && process.env.MONGODB_URI_TEST) {
 } else if (process.env.MONGODB_URI) {
     MONGODB_URI = process.env.MONGODB_URI;
 } else {
-    // Fall back to config file for local development
-    const config = require('./_config');
-    MONGODB_URI = config.mongoURI[env] || 'mongodb://localhost:27017/gallery';
+    // Only require config when needed for local development
+    try {
+        const config = require('./_config');
+        MONGODB_URI = config.mongoURI[env] || 'mongodb://localhost:27017/gallery';
+    } catch (err) {
+        console.log('Config file not found, using default connection');
+        MONGODB_URI = 'mongodb://localhost:27017/gallery';
+    }
 }
 
 console.log(`Environment: ${env}`);
 console.log(`Database configured: ${MONGODB_URI ? 'Yes' : 'No'}`);
+
+// Rest of your code stays the same...
 console.log(`Connecting to: ${MONGODB_URI ? 'Database configured' : 'No database URL'}`);
 
 // connecting the database (modern syntax)
