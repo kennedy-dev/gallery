@@ -33,7 +33,7 @@ pipeline {
                     sh '''
                         git config user.email "jenkins@deployment.local"
                         git config user.name "Jenkins CI"
-                        git push https://heroku:${HEROKU_API_KEY}@git.heroku.com/gallerykennedy.git HEAD:master
+                        git push https://heroku:${HEROKU_API_KEY}@git.heroku.com/gallerykennedy.git HEAD:master --force
                     '''
                 }
             }
