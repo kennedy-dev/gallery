@@ -51,6 +51,20 @@ pipeline {
         
         failure {
             echo 'Deployment failed. Check console output.'
+            emailext (
+                subject: "Jenkins Build Failed - Gallery App",
+                body: """
+                    <h2>Build Failed</h2>
+                    <p><strong>Project:</strong> Gallery Application</p>
+                    <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
+                    <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                    <p><strong>Console Output:</strong> <a href="${env.BUILD_URL}console">View Console Output</a></p>
+                    
+                    <p>The build failed during testing or deployment. Please check the console output for details.</p>
+                """,
+                mimeType: 'text/html',
+                to: 'kennedy.mukuna@gmail.com'
+            )
         }
     }
 }
