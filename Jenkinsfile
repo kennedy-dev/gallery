@@ -47,6 +47,24 @@ pipeline {
         success {
             echo 'Deployment successful!'
             echo 'App live at: https://gallerykennedy-9228839fae9f.herokuapp.com/'
+            
+            // Send Slack notification on successful deployment
+            slackSend(
+                channel: '#kennedy-ip1',
+                color: 'good',
+                message: """
+                :white_check_mark: *Deployment Successful!*
+                
+                *Build ID:* ${env.BUILD_NUMBER}
+                *Project:* Gallery Application
+                *Live Site:* https://gallerykennedy-9228839fae9f.herokuapp.com/
+                *Build Details:* ${env.BUILD_URL}
+                
+                The gallery app has been successfully deployed and is now live!
+                """,
+                teamDomain: 'devopsworkglobal',
+                token: '${env.SLACK_TOKEN}'
+            )
         }
         
         failure {
