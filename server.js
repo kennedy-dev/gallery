@@ -14,7 +14,7 @@ require('dotenv').config();
 // connecting the database
 const env = process.env.NODE_ENV || 'development';
 const config = require('./_config');
-const mongodb_url = config.mongoURI[env];
+const mongodb_url = process.env.MONGODB_URI_PROD || process.env.MONGODB_URI || 'mongodb://localhost:27017/gallery';
 
 mongoose.connect(mongodb_url)
 .then(() => {
